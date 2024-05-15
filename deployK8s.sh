@@ -17,6 +17,9 @@ else
         exit 0
 fi
 
+sudo systemctl disable --now docker
+mkdir /etc/apt/keyrings
+
 echo "[TASK 1] Create module configuration file for containerd"
 cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
 overlay
