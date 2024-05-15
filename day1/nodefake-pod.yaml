@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nodefake-pod
+  name: nodefake-pod
+spec:
+  nodeSelector: 
+    country: poland
+  containers:
+  - image: nginx
+    name: nodename-pod
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
