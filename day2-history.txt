@@ -1,0 +1,253 @@
+kubectl run pod1 --dry-run=client -o yaml
+kubectl run pod1 --image nginx --dry-run=client -o yaml
+k9s
+kubectl run pod1 --image nginx --dry-run=client -o yaml > multi-container.yaml
+vi multi-container.yaml
+man tail
+tail -f /tmp/test
+echo $?
+tail -F /tmp/test
+mv multi-container.yaml sidecar-pod.yaml
+kubectl apply -f sidecar-pod.yaml
+kubectl get pods
+kubectl exec -it sidecar-pod -- bash
+kubectl exec -it sidecar-pod -- sh
+kubectl exec -it sidecar-pod -c sidecar -- sh
+kubectl logs sidecar-pod 
+kubectl logs sidecar-pod --all-containers 
+cp -rp sidecar-pod.yaml init-container-pod.yaml
+vi init-container-pod.yaml
+kubectl apply -f init-container-pod.yaml
+kubectl get pod
+watch -n1 kubectl get pod
+vi init-container-pod.yaml
+kubectl replcae --force -f init-container-pod.yaml
+kubectl replace --force -f init-container-pod.yaml
+watch -n1 kubectl get pod
+vi init-container-pod.yaml
+kubectl replace --force -f init-container-pod.yaml
+watch -n1 kubectl get pod
+kubectl logs init-container-pod 
+kubectl logs init-container-pod --all-containers 
+vi web.yaml
+vi web-svc.yaml
+vi web.yaml
+kubectl apply -f web.yaml
+kubectl get pod
+watch -n1 kubectl get pod
+kubectl logs nginx 
+kubectl logs nginx --all-containers 
+kubectl logs nginx 
+kubectl logs nginx -c nginx
+kubectl logs nginx -c svc-check
+vi init-web.yaml
+kubectl apply -f init-web.yaml ; watch -n1 kubectl get pod 
+kubectl get pod -o wide
+kubectl get pod -n kube-system
+cd /etc/kubernetes/manifests/
+ls -la
+vi etcd.yaml 
+sudo vi etcd.yaml 
+crictl ps -a
+sudo crictl ps -a
+sudo vi etcd.yaml 
+kubectl get nodes
+sudo crictl ps -a
+sudo crictl ps -a | grep etcd
+sudo crictl config --set runtime-endpoint=unix:///run/containerd/containerd.sock --set image-endpoint=unix:///run/containerd/containerd.sock
+sudo crictl ps -a
+kubectl get nodes
+kubectl get pods
+vi etcd.yaml 
+sudo vi etcd.yaml 
+sudo crictl ps -a
+kubectl get pods
+sudo crictl ps -a
+sudo crictl ps
+kubectl get nods
+sudo crictl ps -a | grep -i etcd
+sudo crictl logs c10b954c98313
+sudo vi etcd.yaml 
+watch -n1 sudo crictl ps
+kubectl get nods
+kubectl get nodes
+cd
+cd lx-k_May/day2
+kubectl create ns test; kubectl create -n test sa my-svc-acc
+kubectl get ns
+kubectl get sa -n test
+kubectl create -n test role my-role --help
+kubectl create -n test role my-role --verb=get,list,watch  --resource=secrets,configmap
+kubectl get role -n test
+kubectl describe role -n test
+kubectl get role -n test -o yaml
+kubectl create -n test rolebinding my-rolebinding --help
+kubectl create -n test rolebinding my-rolebinding --role=my-role --serviceaccount=test:my-svc-acc
+kubectl get clusterrole
+kubectl create secret -n test my-secret  --from-literal user=root --from-literal pass=S3cur3
+kubectl create secret -n test my-secret  --from-literal user=root
+kubectl create secret -n test generic  my-secret  --from-literal user=root --from-literal pass=S3cur3
+kubectl get secre -n test
+kubectl get secret -n test
+kubectl -n tets auth can-i --help
+kubectl -n tets auth can-i list pods --as=system:serviceaccount:test:my-svc-acc
+kubectl -n tets auth can-i delete secret --as=system:serviceaccount:test:my-svc-acc
+kubectl -n tets auth can-i get secret --as=system:serviceaccount:test:my-svc-acc
+kubectl -n test auth can-i get secret --as=system:serviceaccount:test:my-svc-acc
+kubectl -n test auth can-i delete secret --as=system:serviceaccount:test:my-svc-acc
+kubectl -n test auth can-i list pods --as=system:serviceaccount:test:my-svc-acc
+vi my-replicaset.yaml
+kubectl apply -f my-replicaset.yaml
+kubectl get rs
+kubectl get rs,pod
+kubectl scale rs frontend --replicas=10
+kubectl get rs,pod
+kubectl scale rs frontend --replicas=0
+kubectl get rs,pod
+kubectl scale rs frontend --replicas=3
+sudo apt-get install yamllint
+yamllint web-svc.yaml 
+vi my-deploy.yaml
+mv my-deploy.yaml my-deployment.yaml
+kubectl apply -f my-deployment.yaml
+kubectl get deploy
+kubectl get deploy,pod
+vi my-deployment.yaml 
+kubectl describe deployments.apps my-deployment 
+watch -n1 kubectl get pods
+kubectl set image deploy my-deployment.yaml nginx=nginx:1.16.2
+kubectl set image deploy my-deployment nginx=nginx:1.16.2
+kubectl rollout status deployment my-deployment 
+kubectl set image deploy my-deployment nginx=nginx:latest
+kubectl rollout status deployment my-deployment 
+kubectl describe deployments.apps my-deployment 
+kubectl annotate deployments.apps my-deployment kubernetes.io/change-cause="updated z version 1.16.2 (broken) to latest"
+kubectl describe deployments.apps my-deployment 
+kubectl set image deploy my-deployment nginx=nginx:1.14.2 --record
+kubectl describe deployments.apps my-deployment 
+kubectl rollout history deployment my-deployment 
+kubectl edit deployments.apps my-deployment 
+kubectl rollout history deployment my-deployment 
+kubectl set image deploy my-deployment nginx=nginx:broken --record
+kubectl rollout history deployment my-deployment 
+kubectl rollout undo deployment my-deployment --to-revision=5
+kubectl rollout history deployment my-deployment 
+kubectl describe deployments.apps my-deployment 
+kubectl get pod -n kube-system | grep metric
+kubectl top nodes
+kubectl top pods
+vi hpa-deployment.yaml
+kubectl apply -f hpa-deployment.yaml
+kubectl autoscale deployment hpa-deployment --max 12 --min 1 --cpu-percent 60
+kubectl get hpa
+kubectl exec -it hpa-deployment-cf78bd856-tfhtg -- bash
+kubectl top pods
+kubectl exec -it hpa-deployment-cf78bd856-tfhtg -- bash
+vi load-generator.yaml
+kubectl apply -f load-generator.yaml
+kubectl get pod
+kubectl get hpa
+kubectl get nodes
+kubectl get nodes --show-
+kubectl get nodes --show-labels 
+vi hpa-deployment.yaml 
+vi load-generator.yaml 
+kubectl replace --force -f load-generator.yaml
+kubectl get pod load-generator 
+vi load-generator.yaml 
+kubectl replace --force -f load-generator.yaml
+kubectl get pod load-generator 
+kubectl get hpa
+watch -n1 kubectl get hpa
+watch -n1 kubectl get hpa,pod
+kubectl top pod
+watch -n1 kubectl get hpa,pod
+kubectl top pod
+watch -n1 kubectl get hpa,pod
+kubectl top pod
+watch -n1 kubectl get hpa,pod
+vi load-generator.yaml 
+kubectl delete deployments.apps hpa-deployment 
+kubectl delete -f hpa-deployment.yaml 
+kubectl delete pod load-generator 
+kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
+kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache; done"
+vi load-generator.yaml 
+kubectl apply -f load-generator.yaml
+watch -n1 kubectl get hpa,pod
+kubectl delete hpa hpa-deployment 
+watch -n1 kubectl get hpa,pod
+kubectl delete deployments.apps my-deployment 
+watch -n1 kubectl get hpa,pod
+vi load-generator.yaml 
+kubectl replace --force l-f load-generator.yaml 
+kubectl replace --force -f load-generator.yaml 
+kubectl delete pod load-generator 
+kubectl apply -f load-generator.yaml
+vi load-generator.yaml 
+kubectl apply -f load-generator.yaml
+vi load-generator.yaml 
+kubectl apply -f load-generator.yaml
+watch -n1 kubectl get hpa,pod
+kubectl scale deployment load-generator --replicas =3
+kubectl scale deployment load-generator --replicas 3
+watch -n1 kubectl get hpa,pod
+kubectl delete  deployments.apps load-generator 
+watch -n1 kubectl get hpa,pod
+git status
+cd ..
+cd day2
+ls -la
+kubectl config view
+vi pi.yaml
+kubectl apply -f pi.yaml 
+kubectl get jobs.batch 
+watch -n1 kubectl get jobs.batch 
+vi sleep-job.ymal
+vi sleep-job.yaml
+kubectl apply -f sleep-job.yaml
+watch -n1 kubectl get jobs.batch 
+vi parallel-job.yaml
+kubectl apply -f parallel-job.yaml
+watch -n1 kubectl get jobs.batch 
+vi hello-cronjob.yaml
+kubectl apply -f hello-cronjob.yaml
+kubectl get cronjobs.batch hello-cronjob 
+kubectl logs job/hello-cronjob-28597758 
+kubectl get job
+watch -n1 kubectl get jobs.batch 
+kubectl delete cronjobs.batch hello-cronjob 
+watch -n1 kubectl get jobs.batch 
+kubectl create ds test-daemonset --image nginx
+vi daemon-set.yaml
+kubectl apply -f daemon-set.yaml
+kubectl get ds -o wide
+kubectl get ds 
+kubectl get pod -o wide
+kubectl edit ds my-daemonset 
+kubectl get pod -o wide
+kubectl delete ds my-daemonset 
+vi daemon-set.yaml 
+kubectl apply -f daemon-set.yaml
+kubectl get pod -o wide
+vi clusterip.yaml
+kubec get pod
+kubectl get pod
+kubectl delete jobs.batch parallel-job 
+kubectl get pod
+kubectl describe nginx
+kubectl describe pod nginx
+vi clusterip.yaml
+kubectl apply -f clusterip.yaml
+kubectl get svc
+kubectl get ep,svc,pod -o wide
+kubectl expose pod nginx --name nodeport  --port 80 --type NodePort
+kubectl get svc
+kubectl expose pod nginx --name loadbalancer  --port 80 --type LoadBalancer
+kubectl get svc
+kubectl delete svc loadbalancer 
+kubectl expose pod nginx --name loadbalancer  --port 80 --type LoadBalancer --external-ips 192.168.1.100
+kubectl expose pod nginx --name loadbalancer  --port 80 --type LoadBalancer --external-ip 192.168.1.100
+kubectl get svc
+history
