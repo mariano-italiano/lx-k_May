@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-configmap
+data:
+  key1: value1
+  key2: "4"
+  key3: |
+    ala ma kot
+    a ja mam psa
+    koniec tesktu  

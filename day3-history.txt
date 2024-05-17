@@ -1,0 +1,201 @@
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/baremetal/deploy.yaml
+watch -n1 kubectl get all -n ingress-nginx 
+kubectl get ingressclasses.networking.k8s.io 
+kubectl get pod
+kubectl create dpeloy dogs --image nginx 
+kubectl create deploy dogs --image nginx 
+kubectl create deploy cars --image nginx 
+kubectl expose deployment cars --name cars-svc --port=80
+kubectl expose deployment dogs --name dogs-svc --port=80
+kubectl get svc,ep
+vi cars--index.html
+vi dogs-index.html
+kubectl cp --help
+kubec get pod
+kubectl get pod
+kubectl cp cars--index.html cars-68cb69f8d8-mhtvl:/usr/share/nginx/html/
+kubectl get pod -o wide
+kubectl cp cars--index.html cars-68cb69f8d8-mhtvl:/usr/share/nginx/html/index.html
+kubectl cp dogs-index.html dogs-f5cf7b68-vgm88:/usr/share/nginx/html/index.html
+vi web-ingress.yaml
+watch -n1 kubectl get all -n ingress-nginx 
+kubectl edit svc -n ingress-nginx ingress-nginx-controller
+watch -n1 kubectl get all -n ingress-nginx 
+kubectl apply -f web-ingress.yaml 
+kubectl get ingress
+kubectl api-versions | grep -i batch
+vi volume-pod.yaml
+kubectl apply -f volume-pod.yaml
+kubectl get pod -o wide
+vi volume-pod.yaml
+kubectl exec -it volume-pod -- bash
+kubectl delete -f volume-pod.yaml 
+kubectl apply -f volume-pod.yaml
+kubectl exec -it volume-pod -- bash
+kubectl get sc
+vi test-pv.yaml
+kubectl apply -f test-pv.yaml
+kubectl get pv
+kubectl get pv,pvc
+vi test-pvc.yaml
+kubectl apply -f test-pvc.yaml
+kubectl get pv,pvc
+vi test-volume-nginx.yaml
+kubectl apply -f test-volume-nginx.yaml
+kubectl get deployments.apps test-volume-nginx 
+kubectl get pods
+kubectl get pods -o wide
+history
+history | awk '$1 > 444' | cut -c 8- > ../day3-history.txt
+git status
+cat volume-pod.yaml 
+kubectl get pv,pvc
+kubectl get pods volume-pod 
+vi test-volume-nginx.yaml 
+kubectl delete -f test-volume-nginx.yaml
+kubectl get pvc,pv
+kubectl delete pvc test-pvc 
+kubectl get pvc,pv
+kubectl apply -f test-pvc.yaml 
+kubectl get pvc,pv
+kubectl get pv test-pv -o=json
+kubectl patch pv test-pv -p '{"spec": {"claimRef":null }}'
+kubectl get pvc,pv
+sudo apt install nfs-common nfs-kernel-server cifs-utils -y
+sudo mkdir /var/nfs-share
+sudo chmod 777 /var/nfs-share
+vi /etc/exports 
+sudo vi /etc/exports 
+sudo exportfs -rav
+sudo systemctl restart nf
+sudo systemctl restart nfs-kernel-server
+vi nfs-class.yaml
+kubectl apply -f nfs-class.yaml
+vi nfs-pv.yaml
+kubectl apply -f nfs-pv.yaml
+vi nfs-pvc.yaml
+kubectl apply -f nfs-pvc.yaml
+vi volume-pod.yaml 
+cp -rp test-volume-nginx.yaml nfs-volume-nginx.yaml
+vi nfs-volume-nginx.yaml
+kubectl apply -f nfs-volume-nginx.yaml
+vi nfs-volume-nginx.yaml
+kubectl get pod -l app=test-volume-nginx
+kubectl get pod -l app=test-volume-nginx -o wide
+kubectl events --sort-by .metadata.creationTimestamp
+kubectl get events --sort-by .metadata.creationTimestamp
+kubectl events 
+watch on1 kubectl get events --sort-by .metadata.creationTimestamp
+watch -n 1 kubectl get pod -l app=test-volume-nginx -o wide
+kubectl scale deployment nfs-volume-nginx --replicas =0
+kubectl scale deployment nfs-volume-nginx --replicas 0
+kubectl scale deployment nfs-volume-nginx --replicas 4
+watch -n 1 kubectl get pod -l app=test-volume-nginx -o wide
+vi my-configmap.yaml
+kubectl apply -f my-configmap.yaml
+vi my-configmap.yaml
+kubectl apply -f my-configmap.yaml
+vi my-configmap.yaml
+kubectl apply -f my-configmap.yaml
+vi my-configmap.yaml
+kubectl apply -f my-configmap.yaml
+vi my-configmap.yaml
+kubectl apply -f my-configmap.yaml
+vi my-configmap.yaml
+kubectl apply -f my-configmap.yaml
+vi my-configmap.yaml
+kubectl apply -f my-configmap.yaml
+vi my-configmap.yaml
+kubectl apply -f my-configmap.yaml
+kubectl delete configmaps my-configmap 
+kubectl apply -f my-configmap.yaml
+vi my-configmap.yaml
+kubectl apply -f my-configmap.yaml
+vi my-configmap.yaml
+vi config.json
+kubectl apply -f my-configmap.yaml 
+kubectl get cm my-configmap 
+kubectl describe cm my-configmap 
+kubectl create cm fromFile --from-file config.json 
+sudo cat /etc/ssh/sshd_config | grep -v "#" | tr -s '\n'
+sudo cat /etc/ssh/sshd_config | grep -v "#" | tr -s '\n' > sshd_config
+kubectl create cm sshCm --from-file sshd_config 
+kubectl create cm ssh-cm --from-file sshd_config 
+kubectl describe cm ssh-cm 
+vi envFile
+kubectl create cm fromEnv --from-env-file envFile 
+kubectl create cm from-env --from-env-file envFile 
+kubectl create cm my-cm2 --from-literal mywav1=test --from-literal user=student --from-file sshd_config --from-env-file envFile 
+kubectl create cm my-cm2 --from-literal mywav1=test --from-literal user=student
+kubectl create cm my-cm2 --from-literal mywav1=test --from-literal user=student --from-file sshd_config 
+kubectl delete cm my-cm2 
+kubectl create cm my-cm2 --from-literal mywav1=test --from-literal user=student --from-file sshd_config 
+kubectl describe cm my-cm2
+vi test.json
+kubectl create cm test-config --from-file test.json 
+kubectl describe cm test-config 
+vi configmap-pod.yaml
+kubectl apply -f configmap-pod.yaml
+kubectl exec -it configmap-pod -- printenv
+vi envFile 
+kubectl delete cm from-env 
+kubectl create cm from-env --from-env-file envFile 
+kubectl delete -f configmap-pod.yaml 
+kubectl apply -f configmap-pod.yaml
+kubectl exec -it configmap-pod -- printenv
+kubectl exec -it configmap-pod -- printenv 
+kubectl exec -it configmap-pod -- printenv | grep -i service
+vi configmap-volume-pod.yaml
+kubectl get cm
+kubectl describe cm my-configmap 
+vi configmap-volume-pod.yaml
+kubectl apply -f configmap-volume-pod.yaml
+kubectl exec -it configmap-volume-pod -- ls -la /etc/config
+kubectl exec -it configmap-volume-pod -- cat /etc/config/key1
+kubectl edit cm my-configmap 
+kubectl exec -it configmap-volume-pod -- ls -la /etc/config
+kubectl exec -it configmap-volume-pod -- cat /etc/config/sshd_config
+kubectl create secret generic my-secret --from-literal user=root --from-literal pass=BezpieczneHaslo
+kubectl describe secrets my-secret 
+kubectl get secrets my-secret -o json
+echo QmV6cGllY3puZUhhc2xv|base64 -d
+echo "MojehasloSuperTajne" | base64
+kubectl api-resources 
+kubectl api-resources  | grep persiste
+kubectl api-resources  | grep -e config -e sec
+htpasswd -c .htpasswd mariola
+sudo apt install apache2-utils -y
+htpasswd -c .htpasswd mariola
+cat .htpasswd 
+kubectl create secret generic nginx-htpasswd --from-file .htpasswd 
+rm .htpasswd 
+vi nginx-config.yaml
+kubectl apply -f nginx-config.yaml 
+vi nginx-pod.yaml
+kubectl apply -f nginx-pod.yaml
+kubectl expose pod nginx-pod --port=80 --type NodePort --nodePort=30080 --name nginx-pod-svc
+kubectl expose pod nginx-pod --port=80 --type NodePort --name nginx-pod-svc
+kubectl edit pod nginx-pod 
+kubectl expose pod nginx-pod --port=80 --type NodePort --name nginx-pod-svc
+kubectl edit svc nginx-pod-svc 
+kubectl  get svc,ep
+curl http://192.168.1.100:30080
+vi flask-app.yaml
+kubectl apply -f flask-app.yaml
+kubectl get all -n app
+kubectl get svc -A
+kubectl  get svc
+kubectl delete svc loadbalancer 
+kubectl get svc -n app
+kubectl edit svc -n app flask-service 
+cp web-ingress.yaml flask-ingress.yaml
+vi flask-ingress.yaml
+kubectl apply -f flask-ingress.yaml -n app
+kubectl get all -n app
+kubectl -n app edit deployments.apps flask 
+kubectl get all -n app
+kubectl -n app rollout sttaus
+kubectl -n app rollout status
+kubectl get all -n app
+git status
+history | awk '$1 > 444' | cut -c 8- > ../day3-history.txt

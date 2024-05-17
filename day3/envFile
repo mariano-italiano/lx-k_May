@@ -1,0 +1,4 @@
+ENV1=VAL1
+USER=root
+PASSWORD=TestPasswd1
+SERVICE_B=testValue
